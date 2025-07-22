@@ -1,25 +1,37 @@
 package com.example.designsystem.components
 
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.compose.ui.unit.times
 import designsystem.composeapp.generated.resources.Res
 import designsystem.composeapp.generated.resources.menu_add
 import designsystem.composeapp.generated.resources.menu_favorite
@@ -27,342 +39,260 @@ import designsystem.composeapp.generated.resources.menu_home
 import designsystem.composeapp.generated.resources.menu_search
 import designsystem.composeapp.generated.resources.menu_setting
 import org.jetbrains.compose.resources.DrawableResource
-import org.jetbrains.compose.resources.vectorResource
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
-// 1. STATE HOISTING - Navigation state is hoisted to parent component
-data class NavigationState(
-    val selectedTab: NavigationTab = NavigationTab.Home,
-    val showLabels: Boolean = false,
-    val style: NavigationStyle = NavigationStyle.Default
-)
-
-enum class NavigationTab {
-    Home, Search, Add, Favorite, Account
-}
-
-enum class NavigationStyle {
-    Default, // Light theme with glassmorphism
-    Dark     // Dark theme with glassmorphism
-}
-
-// 2. MODIFIER & LAYOUT PATTERNS - Reusable modifier patterns
-object NavigationModifiers {
-    val glassmorphismLight = Modifier
-        .background(
-            color = Color.White.copy(alpha = 0.01f),
-            shape = RoundedCornerShape(1000.dp)
-        )
-        .shadow(
-            elevation = 4.dp,
-            shape = RoundedCornerShape(1000.dp),
-            ambientColor = Color.White.copy(alpha = 0.3f),
-            spotColor = Color.White.copy(alpha = 0.1f)
-        )
-    
-    val glassmorphismDark = Modifier
-        .background(
-            color = Color.Black.copy(alpha = 0.3f),
-            shape = RoundedCornerShape(1000.dp)
-        )
-        .shadow(
-            elevation = 4.dp,
-            shape = RoundedCornerShape(1000.dp)
-        )
-    
-    val iconContainer = Modifier
-        .size(48.dp)
-        .clip(CircleShape)
-    
-    val activeIconContainer = Modifier
-        .size(48.dp)
-        .clip(CircleShape)
-        .background(
-            brush = Brush.linearGradient(
-                colors = listOf(
-                    Color(0xFFAFA2EF),
-                    Color(0xFF6F58E2),
-                    Color(0xFFC34EFE)
-                )
-            )
-        )
-        .shadow(
-            elevation = 40.dp,
-            shape = CircleShape,
-            ambientColor = Color(0xFF1C1C1E).copy(alpha = 0.12f)
-        )
-}
-
-// 3. COMPONENT VARIANTS & CONFIGURATION - Multiple variants with different configurations
 @Composable
-fun NavigationBar(
-    navigationState: NavigationState,
-    onNavigationStateChange: (NavigationState) -> Unit,
-    modifier: Modifier = Modifier
+fun CardMenuCustom(
+    modifier: Modifier = Modifier,
+    backgroundColor: Color = Color.Transparent,
+    borderColor: Color = Color.Transparent,
+    borderWidth: Dp = 1.dp,
+    shape: Shape = RoundedCornerShape(8.dp),
+    elevation: Dp = 4.dp,
+    content: @Composable () -> Unit
 ) {
-    val baseModifier = when (navigationState.style) {
-        NavigationStyle.Default -> NavigationModifiers.glassmorphismLight
-        NavigationStyle.Dark -> NavigationModifiers.glassmorphismDark
-    }
-    
-    Column(
-        modifier = modifier
-            .then(baseModifier)
-            .padding(horizontal = 27.dp, vertical = 8.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(12.dp)
-    ) {
-        // Navigation Icons Row
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            NavigationTab.values().forEach { tab ->
-                NavigationIcon(
-                    tab = tab,
-                    isSelected = navigationState.selectedTab == tab,
-                    showLabel = navigationState.showLabels,
-                    style = navigationState.style,
-                    onClick = {
-                        onNavigationStateChange(navigationState.copy(selectedTab = tab))
-                    }
-                )
-            }
-        }
-        
-        // Active Indicator Line
-        ActiveIndicator(
-            selectedTab = navigationState.selectedTab,
-            style = navigationState.style
-        )
-    }
-}
-
-@Composable
-private fun NavigationIcon(
-    tab: NavigationTab,
-    isSelected: Boolean,
-    showLabel: Boolean,
-    style: NavigationStyle,
-    onClick: () -> Unit
-) {
-    val iconColor = when {
-        isSelected -> when (style) {
-            NavigationStyle.Default -> Color(0xFFFEF7FF)
-            NavigationStyle.Dark -> Color(0xFFFEF7FF)
-        }
-        else -> when (style) {
-            NavigationStyle.Default -> Color(0xFF625B71)
-            NavigationStyle.Dark -> Color(0xFFE8DEF8)
-        }
-    }
-    
-    val containerModifier = if (isSelected) {
-        NavigationModifiers.activeIconContainer
-    } else {
-        NavigationModifiers.iconContainer
-    }
-    
-    if (showLabel) {
-        // Variant with labels
-        Column(
-            modifier = containerModifier
-                .clickable { onClick() }
-                .padding(12.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            Icon(
-                imageVector = vectorResource(tab.icon),
-                contentDescription = tab.title,
-                tint = iconColor,
-                modifier = Modifier.size(24.dp)
-            )
-            
-            if (isSelected) {
-                Text(
-                    text = tab.title,
-                    color = Color(0xFFFEF7FF),
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Bold,
-                    letterSpacing = 0.1.sp
-                )
-            }
-        }
-    } else {
-        // Icon-only variant
-        Box(
-            modifier = containerModifier
-                .clickable { onClick() }
-                .padding(12.dp),
-            contentAlignment = Alignment.Center
-        ) {
-            Icon(
-                imageVector = vectorResource(tab.icon),
-                contentDescription = tab.title,
-                tint = iconColor,
-                modifier = Modifier.size(24.dp)
-            )
-            
-            // Active dot indicator
-            if (isSelected) {
-                Box(
-                    modifier = Modifier
-                        .size(4.dp)
-                        .background(
-                            brush = Brush.linearGradient(
-                                colors = listOf(
-                                    Color(0xFFAFA2EF),
-                                    Color(0xFF6F58E2),
-                                    Color(0xFFC34EFE)
-                                )
-                            ),
-                            shape = CircleShape
-                        )
-                        .align(Alignment.BottomCenter)
-                        .offset(y = 8.dp)
-                )
-            }
-        }
-    }
-}
-
-@Composable
-private fun ActiveIndicator(
-    selectedTab: NavigationTab,
-    style: NavigationStyle
-) {
-    val lineColor = when (style) {
-        NavigationStyle.Default -> Color(0xFF49454F)
-        NavigationStyle.Dark -> Color(0xFF49454F)
-    }
-    
-    val animatedOffset by animateFloatAsState(
-        targetValue = selectedTab.ordinal * 0.25f,
-        animationSpec = tween(durationMillis = 300),
-        label = "indicator_offset"
-    )
-    
     Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(4.dp)
+        modifier = modifier.fillMaxSize()
     ) {
-        // Background line
+
         Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(4.dp)
-                .background(
-                    color = lineColor,
-                    shape = RoundedCornerShape(4.dp)
+            modifier = Modifier.fillMaxSize()
+                .shadow(elevation = elevation, shape = shape, clip = false)
+                .background(color = backgroundColor, shape = shape)
+                .border(
+                    width = borderWidth,
+                    color = borderColor,
+                    shape = shape
                 )
         )
-        
-        // Animated active indicator
         Box(
-            modifier = Modifier
-                .width(80.dp)
-                .height(4.dp)
-                .background(
-                    color = Color(0xFFFEF7FF),
-                    shape = RoundedCornerShape(4.dp)
+            modifier = Modifier.fillMaxSize()
+        ){
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                Box(
+                    modifier = Modifier.fillMaxWidth().weight(1f)
+                ){
+                    content()
+                }
+                Spacer(Modifier.height(16.dp))
+                Box(
+                    Modifier.background(Color.Red).fillMaxWidth().height(10.dp)
                 )
-                .offset(
-                    x = (animatedOffset * 374.dp - 40.dp).coerceIn(0.dp, 294.dp)
-                )
+            }
+        }
+    }
+}
+
+@Composable
+fun MenuContent(
+    modifier: Modifier = Modifier,
+){
+    Row(
+        modifier = modifier
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ){
+        BaseMenuItem(
+            isSelected = true,
+            modifier = Modifier.weight(1f).aspectRatio(1f),
+            icon = Res.drawable.menu_home,
+            label = ActiveLabel.Text(
+                text = "Home",
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+        )
+        BaseMenuItem(
+            isSelected = false,
+            modifier = Modifier.weight(1f).aspectRatio(1f),
+            icon = Res.drawable.menu_search,
+            label = ActiveLabel.Text(
+                text = "Home",
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+        )
+        BaseMenuItem(
+            isSelected = false,
+            modifier = Modifier.weight(1f).aspectRatio(1f),
+            icon = Res.drawable.menu_add,
+            label = ActiveLabel.None,
+            brush = Brush.horizontalGradient(
+                colors = listOf(Color.Red, Color.Yellow, Color.Green)
+            ),
+            shape = CircleShape
+        )
+        BaseMenuItem(
+            isSelected = false,
+            modifier = Modifier.weight(1f).aspectRatio(1f),
+            icon = Res.drawable.menu_favorite,
+            label = ActiveLabel.Text(
+                text = "Home",
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+        )
+        BaseMenuItem(
+            isSelected = true,
+            modifier = Modifier.weight(1f).aspectRatio(1f),
+            icon = Res.drawable.menu_setting,
+            label = ActiveLabel.Dot(
+                brush = Brush.horizontalGradient(
+                    colors = listOf(Color.Red, Color.Yellow)
+                ),
+                shape = RoundedCornerShape(4.dp)
+            )
         )
     }
 }
 
-// Extension properties for tab configuration
-val NavigationTab.icon: DrawableResource
-    get() = when (this) {
-        NavigationTab.Home -> Res.drawable.menu_home
-        NavigationTab.Search -> Res.drawable.menu_search
-        NavigationTab.Add -> Res.drawable.menu_add
-        NavigationTab.Favorite -> Res.drawable.menu_favorite
-        NavigationTab.Account -> Res.drawable.menu_setting
-    }
+@Composable
+fun BaseMenuItem(
+    isSelected: Boolean = false,
+    label: ActiveLabel = ActiveLabel.None,
+    brush: Brush = SolidColor(Color.Transparent),
+    shape: Shape = CircleShape,
+    modifier: Modifier = Modifier,
+    icon: DrawableResource
+){
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+            .background(brush = brush, shape = shape),
+    ){
+        Column(
+            modifier = Modifier.fillMaxSize().align(Alignment.Center),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Image(
+                painter = painterResource(icon),
+                contentDescription = null,
+                modifier = Modifier.size(24.dp)
+            )
 
-val NavigationTab.title: String
-    get() = when (this) {
-        NavigationTab.Home -> "Home"
-        NavigationTab.Search -> "Search"
-        NavigationTab.Add -> "Add"
-        NavigationTab.Favorite -> "Favorite"
-        NavigationTab.Account -> "Account"
-    }
+            Spacer(modifier = Modifier.height(4.dp))
 
-// Demo component showing different variants
+            if (isSelected){
+                when (label) {
+                    is ActiveLabel.None -> Unit
+                    is ActiveLabel.Text -> TextActiveLabel(
+                        text = label.text,
+                        color = label.color,
+                        style = label.style
+                    )
+                    is ActiveLabel.Dot -> DotActiveLabel(
+                        brush = label.brush,
+                        shape = label.shape
+                    )
+                }
+            }
+        }
+    }
+}
+sealed class ActiveLabel {
+    object None : ActiveLabel()
+    data class Text(val text: String, val style: TextStyle, val color: Color) : ActiveLabel()
+    data class Dot(val brush: Brush, val shape: Shape = CircleShape) : ActiveLabel()
+}
+
+@Composable
+fun BaseActiveLabel(
+    modifier: Modifier = Modifier,
+    content: @Composable RowScope.() -> Unit
+) {
+    Row(
+        modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center,
+        content = content
+    )
+}
+
+@Composable
+fun TextActiveLabel(
+    text: String,
+    modifier: Modifier = Modifier,
+    style: TextStyle = MaterialTheme.typography.labelMedium,
+    color: Color = MaterialTheme.colorScheme.onSurface
+){
+    BaseActiveLabel(
+        modifier = modifier
+            .fillMaxWidth()
+    ){
+        Text(
+            text = text,
+            modifier = Modifier,
+            style = style,
+            color = color
+        )
+    }
+}
+
+@Composable
+fun DotActiveLabel(
+    modifier: Modifier = Modifier,
+    brush: Brush = SolidColor(Color.Blue),
+    shape: Shape = CircleShape
+) {
+    BaseActiveLabel(
+        modifier = modifier.fillMaxWidth()
+    ) {
+        Box(
+            modifier = Modifier
+                .size(8.dp)
+                .background(brush = brush, shape = shape)
+        )
+    }
+}
+
 @Composable
 @Preview
-fun NavigationBarDemo() {
-    var navigationState by remember {
-        mutableStateOf(NavigationState())
-    }
-    
+fun BaseActiveLabelPreview() {
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .background(Color.White)
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        Text(
-            text = "Navigation Bar Variants",
-            style = MaterialTheme.typography.headlineMedium
+        TextActiveLabel(
+            text = "Home",
+            modifier = Modifier,
+            style = MaterialTheme.typography.labelMedium,
+            color = MaterialTheme.colorScheme.onSurface
         )
-        
-        // Controls
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            Button(
-                onClick = {
-                    navigationState = navigationState.copy(
-                        style = if (navigationState.style == NavigationStyle.Default) 
-                            NavigationStyle.Dark else NavigationStyle.Default
-                    )
-                }
-            ) {
-                Text("Toggle Style")
-            }
-            
-            Button(
-                onClick = {
-                    navigationState = navigationState.copy(
-                        showLabels = !navigationState.showLabels
-                    )
-                }
-            ) {
-                Text("Toggle Labels")
-            }
-        }
-        
-        // Navigation Bar
-        NavigationBar(
-            navigationState = navigationState,
-            onNavigationStateChange = { navigationState = it },
+
+        DotActiveLabel(
+            modifier = Modifier,
+            brush = Brush.horizontalGradient(
+                colors = listOf(Color.Red, Color.Yellow)
+            ),
+            shape = RoundedCornerShape(4.dp)
+        )
+    }
+}
+
+@Composable
+@Preview
+fun BaseMenuItemPreview() {
+    CardMenuCustom (
+        modifier = Modifier.fillMaxWidth().wrapContentHeight(),
+        backgroundColor = Color.White,
+        borderColor = Color.Gray,
+        borderWidth = 1.dp,
+        shape = RoundedCornerShape(24.dp)
+    ){
+        MenuContent(
             modifier = Modifier.fillMaxWidth()
         )
-        
-        // Current state display
-        Card(
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Column(
-                modifier = Modifier.padding(16.dp)
-            ) {
-                Text(
-                    text = "Current State:",
-                    style = MaterialTheme.typography.titleMedium
-                )
-                Text("Selected Tab: ${navigationState.selectedTab.title}")
-                Text("Style: ${navigationState.style}")
-                Text("Show Labels: ${navigationState.showLabels}")
-            }
-        }
     }
 }
 

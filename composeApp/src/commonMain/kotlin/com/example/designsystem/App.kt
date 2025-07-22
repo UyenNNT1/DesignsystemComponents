@@ -80,16 +80,7 @@ fun App() {
             AnimatedVisibility(showConfigurationDemo) {
                 CardConfigurationDemo()
             }
-            
-            AnimatedVisibility(showNavigationDemo) {
-                NavigationBarDemo()
-            }
-            
-            AnimatedVisibility(showNavigationDocs) {
-                NavigationBarDocumentation()
-            }
-            
-            // Show original content if no demo is active
+
             if (!showCardDemo && !showConfigurationDemo && !showNavigationDemo && !showNavigationDocs) {
                 AnimatedVisibility(true) {
                     val greeting = remember { Greeting().greet() }
