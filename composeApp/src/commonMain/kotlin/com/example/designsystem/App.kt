@@ -44,6 +44,20 @@ fun App() {
             Spacer(modifier = Modifier.height(16.dp))
             CardMenuCustom (
                 modifier = Modifier.fillMaxWidth().height(100.dp).padding(8.dp),
+                backgroundColor = Color(0xFF1F1D22),
+                borderColor = Color.White,
+                borderWidth = 1.dp,
+                shape = RoundedCornerShape(36.dp),
+                lineColor = Color.White,
+                elevation = 4.dp
+            ){
+                MenuContentLayout2(
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp, vertical = 8.dp)
+                )
+            }
+            Spacer(modifier = Modifier.height(16.dp))
+            CardMenuCustom (
+                modifier = Modifier.fillMaxWidth().height(100.dp).padding(8.dp),
                 backgroundColor = MaterialTheme.colorScheme.onBackground,
                 borderColor = Color.Gray,
                 borderWidth = 1.dp,
@@ -51,7 +65,7 @@ fun App() {
                 lineColor = MaterialTheme.colorScheme.surface,
                 elevation = 4.dp
             ){
-                MenuContentLayout2(
+                MenuContentLayout3(
                     modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp, vertical = 8.dp)
                 )
             }
