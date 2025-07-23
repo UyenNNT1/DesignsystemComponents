@@ -32,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.TextStyle
@@ -101,7 +102,7 @@ fun CardMenuCustom(
 
 
 @Composable
-fun MenuContent(
+fun MenuContentLayout1(
     modifier: Modifier = Modifier,
 ){
     var selectedIndex by remember { mutableStateOf(0) }
@@ -115,7 +116,8 @@ fun MenuContent(
         BaseMenuItem(
             isSelected = selectedIndex == 0,
             modifier = Modifier.weight(1f).aspectRatio(1f),
-            icon = if (selectedIndex == 0) Res.drawable.menu_home_selected else Res.drawable.menu_home,
+            selectedIcon =  Res.drawable.menu_home_selected ,
+            defaultIcon = Res.drawable.menu_home,
             label = ActiveLabel.Text(
                 text = "Home",
                 style = MaterialTheme.typography.titleSmall,
@@ -126,7 +128,8 @@ fun MenuContent(
         BaseMenuItem(
             isSelected = selectedIndex == 1,
             modifier = Modifier.weight(1f).aspectRatio(1f),
-            icon = if (selectedIndex == 1) Res.drawable.menu_search_selected else Res.drawable.menu_search,
+            selectedIcon =  Res.drawable.menu_search_selected ,
+            defaultIcon = Res.drawable.menu_search,
             label = ActiveLabel.Text(
                 text = "Search",
                 style = MaterialTheme.typography.titleSmall,
@@ -137,7 +140,7 @@ fun MenuContent(
         BaseMenuItem(
             isSelected = selectedIndex == 2,
             modifier = Modifier.weight(1f).aspectRatio(1f),
-            icon = Res.drawable.menu_add,
+            defaultIcon = Res.drawable.menu_add,
             label = ActiveLabel.None,
             brush = Brush.horizontalGradient(
                 colors = listOf(Color(0xFFAFA2EF), Color(0xFF6F58E2), Color(0xFFC34EFE))
@@ -148,7 +151,8 @@ fun MenuContent(
         BaseMenuItem(
             isSelected = selectedIndex == 3,
             modifier = Modifier.weight(1f).aspectRatio(1f),
-            icon = if (selectedIndex == 3) Res.drawable.menu_favorite_selected else Res.drawable.menu_favorite,
+            selectedIcon =  Res.drawable.menu_favorite_selected ,
+            defaultIcon = Res.drawable.menu_favorite,
             label = ActiveLabel.Text(
                 text = "Favorite",
                 style = MaterialTheme.typography.titleSmall,
@@ -159,7 +163,85 @@ fun MenuContent(
         BaseMenuItem(
             isSelected = selectedIndex == 4,
             modifier = Modifier.weight(1f).aspectRatio(1f),
-            icon = if (selectedIndex == 4) Res.drawable.menu_setting_selected else Res.drawable.menu_setting,
+            selectedIcon =  Res.drawable.menu_setting_selected ,
+            defaultIcon = Res.drawable.menu_setting,
+            label = ActiveLabel.Text(
+                text = "Setting",
+                style = MaterialTheme.typography.titleSmall,
+                color = MaterialTheme.colorScheme.surface
+            ),
+            onClick = { selectedIndex = 4 }
+        )
+    }
+}
+
+@Composable
+fun MenuContentLayout2(
+    modifier: Modifier = Modifier,
+){
+    var selectedIndex by remember { mutableStateOf(0) }
+
+    Row(
+        modifier = modifier
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ){
+        BaseMenuItem(
+            isSelected = selectedIndex == 0,
+            modifier = Modifier.weight(1f).aspectRatio(1f),
+            selectedIcon =  Res.drawable.menu_home_selected ,
+            defaultIcon = Res.drawable.menu_home,
+            label = ActiveLabel.Dot(
+                brush = Brush.horizontalGradient(
+                    colors = listOf(Color(0xFFAFA2EF), Color(0xFF6F58E2), Color(0xFFC34EFE))
+                ),
+                shape = RoundedCornerShape(4.dp)
+            ),
+            onClick = { selectedIndex = 0 }
+        )
+        BaseMenuItem(
+            isSelected = selectedIndex == 1,
+            modifier = Modifier.weight(1f).aspectRatio(1f),
+            selectedIcon =  Res.drawable.menu_search_selected ,
+            defaultIcon = Res.drawable.menu_search,
+            label = ActiveLabel.Dot(
+                brush = Brush.horizontalGradient(
+                    colors = listOf(Color(0xFFAFA2EF), Color(0xFF6F58E2), Color(0xFFC34EFE))
+                ),
+                shape = RoundedCornerShape(4.dp)
+            ),
+            onClick = { selectedIndex = 1 }
+        )
+        BaseMenuItem(
+            isSelected = selectedIndex == 2,
+            modifier = Modifier.weight(1f).aspectRatio(1f),
+            defaultIcon = Res.drawable.menu_add,
+            label = ActiveLabel.None,
+            brush = Brush.horizontalGradient(
+                colors = listOf(Color(0xFFAFA2EF), Color(0xFF6F58E2), Color(0xFFC34EFE))
+            ),
+            shape = CircleShape,
+            onClick = { selectedIndex = 2 }
+        )
+        BaseMenuItem(
+            isSelected = selectedIndex == 3,
+            modifier = Modifier.weight(1f).aspectRatio(1f),
+            selectedIcon =  Res.drawable.menu_favorite_selected ,
+            defaultIcon = Res.drawable.menu_favorite,
+            label =ActiveLabel.Dot(
+                brush = Brush.horizontalGradient(
+                    colors = listOf(Color(0xFFAFA2EF), Color(0xFF6F58E2), Color(0xFFC34EFE))
+                ),
+                shape = RoundedCornerShape(4.dp)
+            ),
+            onClick = { selectedIndex = 3 }
+        )
+        BaseMenuItem(
+            isSelected = selectedIndex == 4,
+            modifier = Modifier.weight(1f).aspectRatio(1f),
+            selectedIcon =  Res.drawable.menu_setting_selected ,
+            defaultIcon = Res.drawable.menu_setting,
             label = ActiveLabel.Dot(
                 brush = Brush.horizontalGradient(
                     colors = listOf(Color(0xFFAFA2EF), Color(0xFF6F58E2), Color(0xFFC34EFE))
@@ -173,14 +255,23 @@ fun MenuContent(
 
 @Composable
 fun BaseMenuItem(
+    defaultIcon: DrawableResource,
+    selectedIcon: DrawableResource = defaultIcon,
     isSelected: Boolean = false,
     label: ActiveLabel = ActiveLabel.None,
     brush: Brush = SolidColor(Color.Transparent),
     shape: Shape = CircleShape,
+    selectedColor: Color = Color.Unspecified,
+    unSelectedColor: Color = Color.Unspecified,
     modifier: Modifier = Modifier,
-    onClick: () -> Unit = {},
-    icon: DrawableResource
+    onClick: () -> Unit = {}
 ){
+    val colorFilter = when {
+        isSelected && selectedColor != Color.Unspecified -> ColorFilter.tint(selectedColor)
+        !isSelected && unSelectedColor != Color.Unspecified -> ColorFilter.tint(unSelectedColor)
+        else -> null
+    }
+
     Box(
         modifier = modifier
             .fillMaxSize()
@@ -193,9 +284,10 @@ fun BaseMenuItem(
             verticalArrangement = Arrangement.Center
         ) {
             Image(
-                painter = painterResource(icon),
+                painter = painterResource(if (isSelected) selectedIcon else defaultIcon),
                 contentDescription = null,
-                modifier = Modifier.size(24.dp)
+                modifier = Modifier.size(24.dp),
+                colorFilter = colorFilter
             )
 
             Spacer(modifier = Modifier.height(4.dp))
@@ -278,7 +370,6 @@ fun DotActiveLabel(
 fun BaseActiveLabelPreview() {
     Column(
         modifier = Modifier
-            .fillMaxSize()
             .background(Color.White)
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
@@ -302,7 +393,7 @@ fun BaseActiveLabelPreview() {
 
 @Composable
 @Preview
-fun BaseMenuItemPreview() {
+fun MenuLayout2Preview() {
     CardMenuCustom (
         modifier = Modifier.fillMaxWidth().height(100.dp).padding(8.dp),
         backgroundColor = MaterialTheme.colorScheme.onBackground,
@@ -312,7 +403,25 @@ fun BaseMenuItemPreview() {
         lineColor = MaterialTheme.colorScheme.surface,
         elevation = 4.dp
     ){
-        MenuContent(
+        MenuContentLayout1(
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp, vertical = 8.dp)
+        )
+    }
+}
+
+@Composable
+@Preview
+fun MenuLayout1Preview() {
+    CardMenuCustom (
+        modifier = Modifier.fillMaxWidth().height(100.dp).padding(8.dp),
+        backgroundColor = MaterialTheme.colorScheme.onBackground,
+        borderColor = Color.Gray,
+        borderWidth = 1.dp,
+        shape = RoundedCornerShape(36.dp),
+        lineColor = MaterialTheme.colorScheme.surface,
+        elevation = 4.dp
+    ){
+        MenuContentLayout2(
             modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp, vertical = 8.dp)
         )
     }
