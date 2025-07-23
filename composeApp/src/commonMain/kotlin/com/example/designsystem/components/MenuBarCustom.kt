@@ -206,7 +206,7 @@ fun MenuContentLayout2(
             defaultIcon = Res.drawable.menu_home,
             label = ActiveLabel.Dot(
                 brush = Brush.horizontalGradient(
-                    colors = listOf(Color(0xFFAFA2EF), Color(0xFF6F58E2), Color(0xFFC34EFE))
+                    colors = listOf(Color.Yellow, Color.Red, Color.Green)
                 ),
                 shape = RoundedCornerShape(4.dp)
             ),
@@ -219,7 +219,7 @@ fun MenuContentLayout2(
             defaultIcon = Res.drawable.menu_search,
             label = ActiveLabel.Dot(
                 brush = Brush.horizontalGradient(
-                    colors = listOf(Color(0xFFAFA2EF), Color(0xFF6F58E2), Color(0xFFC34EFE))
+                    colors = listOf(Color.Yellow, Color.Red, Color.Green)
                 ),
                 shape = RoundedCornerShape(4.dp)
             ),
@@ -231,7 +231,7 @@ fun MenuContentLayout2(
             defaultIcon = Res.drawable.menu_add,
             label = ActiveLabel.None,
             brush = Brush.horizontalGradient(
-                colors = listOf(Color(0xFFAFA2EF), Color(0xFF6F58E2), Color(0xFFC34EFE))
+                colors = listOf(Color.Yellow, Color.Red, Color.Green)
             ),
             shape = CircleShape,
             onClick = { selectedIndex = 2 }
@@ -243,7 +243,7 @@ fun MenuContentLayout2(
             defaultIcon = Res.drawable.menu_favorite,
             label =ActiveLabel.Dot(
                 brush = Brush.horizontalGradient(
-                    colors = listOf(Color(0xFFAFA2EF), Color(0xFF6F58E2), Color(0xFFC34EFE))
+                    colors = listOf(Color.Yellow, Color.Red, Color.Green)
                 ),
                 shape = RoundedCornerShape(4.dp)
             ),
@@ -256,7 +256,7 @@ fun MenuContentLayout2(
             defaultIcon = Res.drawable.menu_setting,
             label = ActiveLabel.Dot(
                 brush = Brush.horizontalGradient(
-                    colors = listOf(Color(0xFFAFA2EF), Color(0xFF6F58E2), Color(0xFFC34EFE))
+                    colors = listOf(Color.Yellow, Color.Red, Color.Green)
                 ),
                 shape = RoundedCornerShape(4.dp)
             ),
@@ -538,5 +538,24 @@ fun MenuLayout3Preview() {
         )
     }
 }
+
+@Composable
+@Preview
+fun MenuLayout4Preview() {
+    CardMenuCustom (
+        modifier = Modifier.fillMaxWidth().height(100.dp).padding(8.dp),
+        backgroundColor = Color.White,
+        borderColor = Color.Gray,
+        borderWidth = 2.dp,
+        shape = RoundedCornerShape(36.dp),
+        lineColor = Color.Black,
+        elevation = 4.dp
+    ){
+        MenuContentLayout3(
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp, vertical = 8.dp)
+        )
+    }
+}
+
 
 

@@ -1,5 +1,6 @@
 package com.example.designsystem
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -25,6 +26,7 @@ fun App() {
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background)
                 .padding(top = 32.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ){
@@ -63,6 +65,20 @@ fun App() {
                 borderWidth = 1.dp,
                 shape = RoundedCornerShape(36.dp),
                 lineColor = MaterialTheme.colorScheme.surface,
+                elevation = 4.dp
+            ){
+                MenuContentLayout3(
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp, vertical = 8.dp)
+                )
+            }
+            Spacer(modifier = Modifier.height(16.dp))
+            CardMenuCustom (
+                modifier = Modifier.fillMaxWidth().height(100.dp).padding(8.dp),
+                backgroundColor = Color.White,
+                borderColor = Color.Gray,
+                borderWidth = 2.dp,
+                shape = RoundedCornerShape(36.dp),
+                lineColor = Color.Black,
                 elevation = 4.dp
             ){
                 MenuContentLayout3(
