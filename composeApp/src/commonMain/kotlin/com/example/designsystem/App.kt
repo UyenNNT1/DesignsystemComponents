@@ -1,96 +1,92 @@
 package com.example.designsystem
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeContentPadding
-import androidx.compose.material3.Button
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
-import designsystem.composeapp.generated.resources.Res
-import designsystem.composeapp.generated.resources.compose_multiplatform
 import com.example.designsystem.components.*
+import com.example.designsystem.material3.AppTheme
 
 @Composable
 @Preview
 fun App() {
-    MaterialTheme {
-        var showCardDemo by remember { mutableStateOf(false) }
-        var showConfigurationDemo by remember { mutableStateOf(false) }
-        var showNavigationDemo by remember { mutableStateOf(false) }
-        var showNavigationDocs by remember { mutableStateOf(false) }
-        
+    AppTheme {
         Column(
             modifier = Modifier
-                .safeContentPadding()
-                .fillMaxSize(),
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background)
+                .padding(top = 32.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            Text(
-                text = "Design System - Components",
-                style = MaterialTheme.typography.headlineMedium,
-                modifier = Modifier.padding(16.dp)
-            )
-            
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                modifier = Modifier.padding(8.dp)
-            ) {
-                Button(
-                    onClick = { showCardDemo = !showCardDemo }
-                ) {
-                    Text("Card Demo")
-                }
-                
-                Button(
-                    onClick = { showConfigurationDemo = !showConfigurationDemo }
-                ) {
-                    Text("Config Demo")
-                }
-                
-                Button(
-                    onClick = { showNavigationDemo = !showNavigationDemo }
-                ) {
-                    Text("Navigation Demo")
-                }
-                
-                Button(
-                    onClick = { showNavigationDocs = !showNavigationDocs }
-                ) {
-                    Text("Navigation Docs")
-                }
+        ){
+            CardMenuCustom (
+                modifier = Modifier.fillMaxWidth().height(100.dp).padding(8.dp),
+                backgroundColor = MaterialTheme.colorScheme.onBackground,
+                borderColor = Color.Gray,
+                borderWidth = 1.dp,
+                shape = RoundedCornerShape(36.dp),
+                lineColor = MaterialTheme.colorScheme.surface,
+                elevation = 4.dp
+            ){
+                MenuContentLayout1(
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp, vertical = 8.dp)
+                )
             }
-            
-            AnimatedVisibility(showCardDemo) {
-                CardDemo()
+            Spacer(modifier = Modifier.height(16.dp))
+            CardMenuCustom (
+                modifier = Modifier.fillMaxWidth().height(100.dp).padding(8.dp),
+                backgroundColor = Color(0xFF1F1D22),
+                borderColor = Color.White,
+                borderWidth = 1.dp,
+                shape = RoundedCornerShape(36.dp),
+                lineColor = Color.White,
+                elevation = 4.dp
+            ){
+                MenuContentLayout2(
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp, vertical = 8.dp)
+                )
             }
-            
-            AnimatedVisibility(showConfigurationDemo) {
-                CardConfigurationDemo()
+            Spacer(modifier = Modifier.height(16.dp))
+            CardMenuCustom (
+                modifier = Modifier.fillMaxWidth().height(100.dp).padding(8.dp),
+                backgroundColor = MaterialTheme.colorScheme.onBackground,
+                borderColor = Color.Gray,
+                borderWidth = 1.dp,
+                shape = RoundedCornerShape(36.dp),
+                lineColor = MaterialTheme.colorScheme.surface,
+                elevation = 4.dp
+            ){
+                MenuContentLayout3(
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp, vertical = 8.dp)
+                )
             }
-
-            if (!showCardDemo && !showConfigurationDemo && !showNavigationDemo && !showNavigationDocs) {
-                AnimatedVisibility(true) {
-                    val greeting = remember { Greeting().greet() }
-                    Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-                        Image(painterResource(Res.drawable.compose_multiplatform), null)
-                        Text("Compose: $greeting")
-                    }
-                }
+            Spacer(modifier = Modifier.height(16.dp))
+            CardMenuCustom (
+                modifier = Modifier.fillMaxWidth().height(100.dp).padding(8.dp),
+                backgroundColor = Color.White,
+                borderColor = Color.Gray,
+                borderWidth = 2.dp,
+                shape = RoundedCornerShape(36.dp),
+                lineColor = Color.Black,
+                elevation = 4.dp
+            ){
+                MenuContentLayout3(
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp, vertical = 8.dp)
+                )
             }
         }
+
     }
 }
 

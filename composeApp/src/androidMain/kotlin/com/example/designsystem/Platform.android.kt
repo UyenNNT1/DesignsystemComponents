@@ -1,5 +1,6 @@
 package com.example.designsystem
 
+import android.content.res.Resources
 import android.os.Build
 
 class AndroidPlatform : Platform {
@@ -7,3 +8,8 @@ class AndroidPlatform : Platform {
 }
 
 actual fun getPlatform(): Platform = AndroidPlatform()
+
+actual fun getScreenWidth(): Int {
+    val metrics = Resources.getSystem().displayMetrics
+    return metrics.widthPixels
+}

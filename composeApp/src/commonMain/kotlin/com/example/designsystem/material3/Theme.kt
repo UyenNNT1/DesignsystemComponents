@@ -256,7 +256,7 @@ fun AppTheme(
     val colorScheme = if (darkTheme) darkScheme else lightScheme
 
     MaterialTheme(
-        colorScheme = lightScheme,
+        colorScheme = colorScheme,
         typography = AppTypography,
         content = content
     )
