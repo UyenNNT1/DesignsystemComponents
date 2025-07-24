@@ -1,3 +1,4 @@
+/*
 package com.example.designsystem
 
 import androidx.compose.foundation.layout.*
@@ -11,14 +12,16 @@ import androidx.compose.ui.unit.dp
 import com.example.designsystem.components.CardConfiguration
 import com.example.designsystem.components.CardCustom
 import com.example.designsystem.components.CardData
-import com.example.designsystem.components.CardSize
+import com.example.designsystem.components.CardSize2
 import com.example.designsystem.components.CardState
 import com.example.designsystem.components.CardVariant
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
+*/
 /**
  * Demo component showcasing the Card component with state hoisting
- */
+ *//*
+
 @Composable
 fun CardDemo() {
     var selectedCardId by remember { mutableStateOf<String?>(null) }
@@ -80,9 +83,11 @@ fun CardDemo() {
                 CardCustom(
                     data = cardData,
                     configuration = CardConfiguration(
-                        size = CardSize.MEDIUM,
+                        size = CardSize2.MEDIUM,
                         variant = CardVariant.SOLID,
-                        onClick = { /* Handle click */ }
+                        onClick = { */
+/* Handle click *//*
+ }
                     ),
                     state = CardState(
                         isSelected = selectedCardId == cardData.title
@@ -108,10 +113,12 @@ fun CardDemo() {
                 CardCustom(
                     data = cardData,
                     configuration = CardConfiguration(
-                        size = CardSize.LARGE,
+                        size = CardSize2.LARGE,
                         variant = CardVariant.IMAGE_BACKGROUND,
                         showRating = true,
-                        onClick = { /* Handle click */ }
+                        onClick = { */
+/* Handle click *//*
+ }
                     ),
                     state = CardState(
                         isSelected = selectedCardId == cardData.title
@@ -137,12 +144,14 @@ fun CardDemo() {
                 CardCustom(
                     data = cardData,
                     configuration = CardConfiguration(
-                        size = CardSize.SMALL,
+                        size = CardSize2.SMALL,
                         variant = CardVariant.GLASSMORPHISM,
                         showTag = cardData.tag != null,
                         showProBadge = cardData.isPro,
                         showRating = true,
-                        onClick = { /* Handle click */ }
+                        onClick = { */
+/* Handle click *//*
+ }
                     ),
                     state = CardState(
                         isSelected = selectedCardId == cardData.title
@@ -158,13 +167,15 @@ fun CardDemo() {
     }
 }
 
+*/
 /**
  * Advanced demo showing different card configurations
- */
+ *//*
+
 @Composable
 fun CardConfigurationDemo() {
     var currentVariant by remember { mutableStateOf(CardVariant.SOLID) }
-    var currentSize by remember { mutableStateOf(CardSize.MEDIUM) }
+    var currentSize by remember { mutableStateOf(CardSize2.MEDIUM) }
     var showRating by remember { mutableStateOf(false) }
     var showTag by remember { mutableStateOf(false) }
     var showProBadge by remember { mutableStateOf(false) }
@@ -219,7 +230,7 @@ fun CardConfigurationDemo() {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                CardSize.values().forEach { size ->
+                CardSize2.values().forEach { size ->
                     Button(
                         onClick = { currentSize = size },
                         colors = ButtonDefaults.buttonColors(
@@ -274,7 +285,9 @@ fun CardConfigurationDemo() {
                 showRating = showRating,
                 showTag = showTag,
                 showProBadge = showProBadge,
-                onClick = { /* Handle click */ }
+                onClick = { */
+/* Handle click *//*
+ }
             ),
             state = CardState(),
             onStateChange = {}
@@ -296,4 +309,4 @@ fun CardConfigurationDemoPreview() {
     MaterialTheme {
         CardConfigurationDemo()
     }
-} 
+} */

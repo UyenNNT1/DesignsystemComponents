@@ -1,3 +1,4 @@
+/*
 package com.example.designsystem.components
 
 import androidx.compose.foundation.background
@@ -12,7 +13,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -25,9 +25,11 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 // 1. STATE HOISTING - Data classes and state management
 // ============================================================================
 
+*/
 /**
  * Card data model - represents the content of a card
- */
+ *//*
+
 data class CardData(
     val title: String,
     val location: String? = null,
@@ -37,17 +39,21 @@ data class CardData(
     val isPro: Boolean = false
 )
 
+*/
 /**
  * Card state - manages the interactive state of the card
- */
+ *//*
+
 data class CardState(
     val isSelected: Boolean = false,
     val isPressed: Boolean = false
 )
 
+*/
 /**
  * Card events - defines possible interactions with the card
- */
+ *//*
+
 sealed class CardEvent {
     object Click : CardEvent()
     object LongPress : CardEvent()
@@ -58,14 +64,18 @@ sealed class CardEvent {
 // 2. MODIFIER & LAYOUT PATTERNS - Reusable modifier extensions
 // ============================================================================
 
+*/
 /**
  * Card modifier patterns for consistent styling
- */
+ *//*
+
 object CardModifiers {
     
-    /**
+    */
+/**
      * Base card modifier with consistent styling
-     */
+     *//*
+
     fun Modifier.cardBase(
         cardVariant: CardVariant,
         cardState: CardState
@@ -93,18 +103,22 @@ object CardModifiers {
             }
         )
     
-    /**
+    */
+/**
      * Glassmorphism effect modifier
-     */
+     *//*
+
     fun Modifier.glassmorphismEffect(): Modifier = this
         .background(
             Color.White.copy(alpha = 0.01f),
             RoundedCornerShape(8.dp)
         )
     
-    /**
+    */
+/**
      * Gradient overlay modifier for image backgrounds
-     */
+     *//*
+
     fun Modifier.gradientOverlay(): Modifier = this
         .background(
             Brush.verticalGradient(
@@ -122,29 +136,35 @@ object CardModifiers {
 // 3. COMPONENT VARIANTS & CONFIGURATION - Flexible component system
 // ============================================================================
 
+*/
 /**
  * Card size variants
- */
+ *//*
+
 enum class CardSize {
     SMALL,    // 1:1 ratio
     MEDIUM,   // 1:2 ratio  
     LARGE     // 2:3 ratio
 }
 
+*/
 /**
  * Card style variants based on Figma design
- */
+ *//*
+
 enum class CardVariant {
     SOLID,           // Card 1 - Solid background with image
     IMAGE_BACKGROUND, // Card 2,3,5,6 - Image background with overlay
     GLASSMORPHISM    // Card 4,7 - Glassmorphism effect
 }
 
+*/
 /**
  * Card configuration - combines all variant options
- */
+ *//*
+
 data class CardConfiguration(
-    val size: CardSize = CardSize.MEDIUM,
+    val size: CardSize2 = CardSize2.MEDIUM,
     val variant: CardVariant = CardVariant.SOLID,
     val showLocation: Boolean = true,
     val showRating: Boolean = false,
@@ -154,9 +174,11 @@ data class CardConfiguration(
     val onLongClick: (() -> Unit)? = null
 )
 
+*/
 /**
  * Main Card component with state hoisting and variant support
- */
+ *//*
+
 @Composable
 fun CardCustom(
     data: CardData,
@@ -248,9 +270,9 @@ private fun ImageBackgroundCard(
             .fillMaxWidth()
             .aspectRatio(
                 when (configuration.size) {
-                    CardSize.SMALL -> 1f
-                    CardSize.MEDIUM -> 0.636f  // 1:1.57 ratio
-                    CardSize.LARGE -> 0.692f   // 2:3 ratio
+                    CardSize2.SMALL -> 1f
+                    CardSize2.MEDIUM -> 0.636f  // 1:1.57 ratio
+                    CardSize2.LARGE -> 0.692f   // 2:3 ratio
                 }
             )
     ) {
@@ -305,9 +327,9 @@ private fun GlassmorphismCard(
             .fillMaxWidth()
             .aspectRatio(
                 when (configuration.size) {
-                    CardSize.SMALL -> 1f
-                    CardSize.MEDIUM -> 0.636f
-                    CardSize.LARGE -> 0.692f
+                    CardSize2.SMALL -> 1f
+                    CardSize2.MEDIUM -> 0.636f
+                    CardSize2.LARGE -> 0.692f
                 }
             )
     ) {
@@ -483,7 +505,7 @@ fun CardCustomPreview() {
         CardCustom(
             data = sampleData,
             configuration = CardConfiguration(
-                size = CardSize.MEDIUM,
+                size = CardSize2.MEDIUM,
                 variant = CardVariant.SOLID
             ),
             state = CardState(),
@@ -494,7 +516,7 @@ fun CardCustomPreview() {
         CardCustom(
             data = sampleData,
             configuration = CardConfiguration(
-                size = CardSize.MEDIUM,
+                size = CardSize2.MEDIUM,
                 variant = CardVariant.IMAGE_BACKGROUND,
                 showRating = true
             ),
@@ -506,7 +528,7 @@ fun CardCustomPreview() {
         CardCustom(
             data = sampleData,
             configuration = CardConfiguration(
-                size = CardSize.MEDIUM,
+                size = CardSize2.MEDIUM,
                 variant = CardVariant.GLASSMORPHISM,
                 showTag = true,
                 showProBadge = true
@@ -515,4 +537,4 @@ fun CardCustomPreview() {
             onStateChange = {}
         )
     }
-}
+}*/
